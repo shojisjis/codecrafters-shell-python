@@ -3,8 +3,8 @@ import os  # 이 줄을 추가합니다
 import subprocess  # 이 줄을 추가합니다
 
 
-# 유효한 명령어 목록 추가
-VALID_COMMANDS = ['exit', 'echo', 'type']
+# 유효한 명령어 목록 수정
+VALID_COMMANDS = ['exit', 'echo', 'type', 'pwd']
 
 def main():
     # PATH 환경 변수 가져오기
@@ -27,6 +27,8 @@ def main():
             print(parsed_cmd['args'])
         elif parsed_cmd['command'] == 'type':
             check_command(parsed_cmd['args'])
+        elif parsed_cmd['command'] == 'pwd':
+            print(os.getcwd())  # 현재 디렉토리 경로 출력
         elif parsed_cmd['command'] == '':
             continue
         else:
