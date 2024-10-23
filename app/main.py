@@ -26,11 +26,15 @@ def main():
             print(parsed_cmd['args'])
         elif parsed_cmd['command'] == 'type':
             check_command(parsed_cmd['args'])
+        elif parsed_cmd['command'] == '':
+            continue
         else:
             print(f"{parsed_cmd['command']}: command not found")
 
 def parse_command(cmd):
     parts = cmd.split(maxsplit=1)
+    if len(parts) == 0:
+        return {'command': '', 'args': ''}
     command = parts[0]
     args = parts[1] if len(parts) > 1 else '0' if command == 'exit' else ''
     return {'command': command, 'args': args}
