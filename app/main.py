@@ -1,10 +1,15 @@
 import sys
+import os  # 이 줄을 추가합니다
 
 
 # 유효한 명령어 목록 추가
 VALID_COMMANDS = ['exit', 'echo', 'type']
 
 def main():
+    # PATH 환경 변수 가져오기
+    path = os.environ.get('PATH', '')
+    # print(f"현재 PATH 환경 변수: {path}")
+
     # Main loop
     while True:
         # Print the prompt
@@ -35,6 +40,13 @@ def check_command(cmd):
     if cmd in VALID_COMMANDS:
         print(f"{cmd} is a shell builtin")
     else:
+        # PATH 환경 변수에서 명령어 찾기
+        path_dirs = os.environ.get('PATH', '').split(os.pathsep)
+        for dir in path_dirs:
+            file_path = os.path.join(dir, cmd)
+            if os.path.isfile(file_path) and os.access(file_path, os.X_OK):
+                print(f"{cmd} is {file_path}")
+                return
         print(f"{cmd}: not found")
 
 if __name__ == "__main__":
