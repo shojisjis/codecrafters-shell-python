@@ -34,9 +34,9 @@ def main():
             try:
                 result = subprocess.run([parsed_cmd['command']] + parsed_cmd['args'].split(), 
                                         capture_output=True, text=True)
-                print(result.stdout)
+                print(result.stdout.strip() if result.stdout else '')
                 if result.stderr:
-                    print(result.stderr, file=sys.stderr)
+                    print(result.stderr.strip() if result.stderr else '', file=sys.stderr)
             except FileNotFoundError:
                 print(f"{parsed_cmd['command']}: command not found")
 
