@@ -1,5 +1,6 @@
 import sys
 import os  # 이 줄을 추가합니다
+import subprocess  # 이 줄을 추가합니다
 
 
 # 유효한 명령어 목록 추가
@@ -29,7 +30,15 @@ def main():
         elif parsed_cmd['command'] == '':
             continue
         else:
-            print(f"{parsed_cmd['command']}: command not found")
+            # 유효하지 않은 명령어 실행
+            try:
+                result = subprocess.run([parsed_cmd['command']] + parsed_cmd['args'].split(), 
+                                        capture_output=True, text=True)
+                print(result.stdout)
+                if result.stderr:
+                    print(result.stderr, file=sys.stderr)
+            except FileNotFoundError:
+                print(f"{parsed_cmd['command']}: command not found")
 
 def parse_command(cmd):
     parts = cmd.split(maxsplit=1)
