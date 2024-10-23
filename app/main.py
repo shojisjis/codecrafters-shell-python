@@ -7,10 +7,6 @@ import subprocess  # 이 줄을 추가합니다
 VALID_COMMANDS = ['exit', 'echo', 'type', 'pwd', 'cd']
 
 def main():
-    # PATH 환경 변수 가져오기
-    path = os.environ.get('PATH', '')
-    # print(f"현재 PATH 환경 변수: {path}")
-
     # Main loop
     while True:
         # Print the prompt
@@ -31,7 +27,8 @@ def main():
             print(os.getcwd())  # 현재 디렉토리 경로 출력
         elif parsed_cmd['command'] == 'cd':
             try:
-                os.chdir(parsed_cmd['args'])
+                args = parsed_cmd['args']
+                os.chdir(os.environ['HOME'] if args == '~' else args)
             except FileNotFoundError:
                 print(f"cd: {parsed_cmd['args']}: No such file or directory")
             except NotADirectoryError:
