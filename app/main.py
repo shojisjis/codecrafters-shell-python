@@ -8,9 +8,13 @@ def main():
         sys.stdout.write("$ ")
         sys.stdout.flush()
 
-        # Wait for user input
+        # 사용자 입력 대기
         cmd = input()
-        print(f"{cmd}: command not found")
+        if cmd.startswith("exit"):
+            exit_code = (cmd + " ").split(" ", 1)[1]
+            sys.exit(int(exit_code.strip()))
+        else:
+            print(f"{cmd}: command not found")
 
 
 if __name__ == "__main__":
